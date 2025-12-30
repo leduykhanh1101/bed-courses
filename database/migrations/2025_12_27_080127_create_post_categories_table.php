@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('Comics');
-            $table->string('Scary');
-            $table->string('Manga');
-            $table->string('News');
+            $table->string('Title');
+            $table->string('Description');
+            $table->string('content');
         });
     }
 
