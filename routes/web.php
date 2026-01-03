@@ -15,4 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+Route::get('/about', function () {
+    return 'About Us';
 });
+Route::get('/about us', function () {
+    return view('aboutus');
+});
+Route::get('user/{name?}', function (?string $name = 'Di Canh') {
+    return "Name: {$name}";
+});
+
+
