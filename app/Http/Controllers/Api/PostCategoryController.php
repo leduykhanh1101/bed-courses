@@ -13,7 +13,7 @@ class PostCategoryController extends Controller
      */
     public function index()
     {
-         $posts = PostCategory::get();
+        $posts = PostCategory::get();
 
         return response()->json([
             'success' => true,
@@ -22,50 +22,73 @@ class PostCategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|limit:1',
+            'description' => 'required|string',
+            'content' => 'required|string',
+        ]);
+
+        $postCategory = PostCategory::create($data);
+
+        // Trả về JSON chuẩn theo schema
+        return response()->json([
+            'id' => $postCategory->id,
+            'title' => $postCategory->title,
+            'description' => $postCategory->description,
+            'content' => $postCategory->content,
+            'created_at' => $postCategory->created_at,
+            'updated_at' => $postCategory->updated_at,
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(PostCategory $postCategory)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PostCategory $postCategory)
-    {
-        //
+    public function show($id)
+    {;
+        return PostCategory::find($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PostCategory $postCategory)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'content' => 'required|string',
+        ]);
+
+        $postCategory = PostCategory::findOrFail($id);
+        $postCategory->update($data);
+
+        if (!$postCategory) {
+            return response()->json([
+                "message" => "not found data"
+            ], 404);
+        }
+
+        // Trả về JSON chuẩn theo schema
+        return response()->json([
+            $postCategory
+        ], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PostCategory $postCategory)
+    public function destroy($id)
     {
-        //
+        $postCategory = PostCategory::findOrFail($id);
+        $postCategory->delete();
+
+        return response()->json([
+            'message' => 'Xóa danh mục thành công'
+        ], 200);
     }
 }
