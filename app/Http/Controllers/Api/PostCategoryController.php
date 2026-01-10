@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PostCategoryController extends Controller
 {
@@ -58,7 +59,8 @@ class PostCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        try {
+            $data = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
             'content' => 'required|string',
@@ -72,11 +74,13 @@ class PostCategoryController extends Controller
                 "message" => "not found data"
             ], 404);
         }
-
         // Trả về JSON chuẩn theo schema
         return response()->json([
             $postCategory
         ], 201);
+        } catch (\Throwable $th) {
+            Log::info($th);
+        }
     }
 
     /**

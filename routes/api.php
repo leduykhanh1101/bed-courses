@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\PostCategoryController;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::get('/post-categories', [PostCategoryController::class, 'index']);
 // Lấy chi tiết danh mục bài viết 
 Route::get('/post-categories/{id}/show', [PostCategoryController::class, 'show']);
 
-// Lấy chi danh mục bài viết vào hệ thống
+// Lưu danh mục bài viết mới vào hệ thống
 Route::post('/post-categories/store', [PostCategoryController::class, 'store']);
 
 // Cập nhật danh mục bài viết vào hệ thống
@@ -37,3 +38,24 @@ Route::put('/post-categories/{id}/update', [PostCategoryController::class, 'upda
 
 // Xóa danh mục bài viết 
 Route::delete('/post-categories/{id}/delete', [PostCategoryController::class, 'destroy']);
+
+
+
+
+// Lấy danh sách danh mục bài viết 
+Route::get('/post', [PostController::class, 'index']);
+
+// Lấy chi tiết danh mục bài viết 
+Route::get('/post/{id}/show', [PostController::class, 'show']);
+
+// Lấy chi danh mục bài viết vào hệ thống
+Route::post('/post/store', [PostController::class, 'store']);
+
+// Cập nhật thông tin bài viết vào hệ thống
+Route::put('/post/{id}/update', [PostController::class, 'update']);
+
+// Xóa danh mục bài viết 
+Route::delete('/post/{id}/delete', [PostController::class, 'destroy']);
+
+// Cập nhật trạng thái bài viết
+Route::put('/post/{id}/update-status', [PostController::class, 'updateStatus']);
