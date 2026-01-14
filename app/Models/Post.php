@@ -16,4 +16,14 @@ class Post extends Model
         'author',
         'status',
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(
+            PostCategory::class,
+            'post_ref_category',
+            'post_id',
+            'post_category_id'
+        );
+    }
 }

@@ -46,7 +46,7 @@ class PostController extends Controller
     }
     public function show($id)
     {;
-        return Post::find($id);
+        return Post::with('categories')->find($id);
     }
     public function update(Request $request, $id)
     {
@@ -72,10 +72,10 @@ class PostController extends Controller
             'message : Xoá Danh mục thành công'
         ], status: 200);
     }
-   public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, $id)
     {
         $data = $request->validate([
-            'status'=>'required'
+            'status' => 'required'
         ]);
         $post = Post::findOrFail($id);
 

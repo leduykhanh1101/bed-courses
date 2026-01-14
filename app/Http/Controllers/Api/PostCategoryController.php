@@ -51,7 +51,19 @@ class PostCategoryController extends Controller
      */
     public function show($id)
     {;
-        return PostCategory::find($id);
+        return PostCategory::with('posts')->find($id);
+
+        // SELECT
+        //     c.id   AS category_id,
+        //     c.name AS category_name,
+        //     p.*
+        // FROM post_categories c
+        // LEFT JOIN post_post_category pc
+        //     ON pc.post_category_id = c.id
+        // LEFT JOIN posts p
+        //     ON p.id = pc.post_id
+        // WHERE c.id = :id;
+
     }
 
     /**
@@ -61,23 +73,23 @@ class PostCategoryController extends Controller
     {
         try {
             $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'content' => 'required|string',
-        ]);
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'content' => 'required|string',
+            ]);
 
-        $postCategory = PostCategory::findOrFail($id);
-        $postCategory->update($data);
+            $postCategory = PostCategory::findOrFail($id);
+            $postCategory->update($data);
 
-        if (!$postCategory) {
+            if (!$postCategory) {
+                return response()->json([
+                    "message" => "not found data"
+                ], 404);
+            }
+            // Trả về JSON chuẩn theo schema
             return response()->json([
-                "message" => "not found data"
-            ], 404);
-        }
-        // Trả về JSON chuẩn theo schema
-        return response()->json([
-            $postCategory
-        ], 201);
+                $postCategory
+            ], 201);
         } catch (\Throwable $th) {
             Log::info($th);
         }

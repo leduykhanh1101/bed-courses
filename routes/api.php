@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PostCategoryController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Models\Post;
 
 /*
@@ -59,3 +61,9 @@ Route::delete('/post/{id}/delete', [PostController::class, 'destroy']);
 
 // Cập nhật trạng thái bài viết
 Route::put('/post/{id}/update-status', [PostController::class, 'updateStatus']);
+
+// Lấy chi tiết danh mục bài viết 
+Route::get('/users/{id}/show', [UserController::class, 'show']);
+
+// Lấy chi tiết danh mục bài viết 
+Route::get('/profiles/{id}/show', [ProfileController::class, 'show']);
